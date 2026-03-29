@@ -41,7 +41,7 @@ namespace EquipmentRental
             equipmentService.AddEquipment(projector1);
             equipmentService.AddEquipment(camera1);
 
-            PrintSection("Equipments added:");
+            PrintSection("Equipment added:");
             Console.WriteLine(reportService.GetAllEquipmentReport());
             Console.WriteLine(reportService.GetAvailableEquipmentReport());
 
@@ -101,19 +101,18 @@ namespace EquipmentRental
             // 11. Oznaczenie sprzętu jako niedostępnego
             PrintSection("Marking equipment as unavailable:");
             equipmentService.MarkAsUnavailable(camera1.Id);
-            Console.WriteLine(equipmentService.GetById(2));
+            Console.WriteLine(equipmentService.GetById(camera1.Id));
 
-            
+
             // 12. Aktywne wypożyczenia użytkownika
+            PrintSection("Active rentals for users");
             Console.WriteLine(reportService.GetActiveRentalsForUserReport(student1));
 
-            Console.WriteLine();
             Console.WriteLine(reportService.GetActiveRentalsForUserReport(employee1));
 
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
-
+            
+            
+            
             // 13. Raport końcowy
 
             PrintSection("FINAL REPORT");
@@ -122,19 +121,9 @@ namespace EquipmentRental
 
             Console.WriteLine(reportService.GetAvailableEquipmentReport());
 
-            Console.WriteLine("All rentals:");
-            foreach (var rental in rentalService.GetAllRentals())
-            {
-                Console.WriteLine(rental);
-            }
-            Console.WriteLine();
+            Console.WriteLine(reportService.GetAllRentalsReport());
 
-            Console.WriteLine("Active rentals:");
-            foreach (var rental in rentalService.GetActiveRentals())
-            {
-                Console.WriteLine(rental);
-            }
-            Console.WriteLine();
+            Console.WriteLine(reportService.GetActiveRentalsReport());
 
             Console.WriteLine(reportService.GetOverdueRentalsReport(overdueCheckDate));
 

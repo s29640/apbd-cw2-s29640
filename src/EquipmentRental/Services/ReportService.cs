@@ -68,6 +68,32 @@ namespace EquipmentRental.Services
             return sb.ToString();
         }
 
+        public string GetAllRentalsReport()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"ALL RENTALS:");
+
+            foreach (var rental in _rentalService.GetAllRentals())
+            {
+                sb.AppendLine(rental.ToString());
+            }
+
+            return sb.ToString();
+        }
+        
+        public string GetActiveRentalsReport()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"ACTIVE RENTALS:");
+
+            foreach (var rental in _rentalService.GetActiveRentals())
+            {
+                sb.AppendLine(rental.ToString());
+            }
+
+            return sb.ToString();
+        }
+
         public string GetSystemSummaryReport(DateTime currentDateTime)
         {
             var allEquipment = _equipmentService.GetAllEquipment();
