@@ -63,5 +63,15 @@
         {
             return IsReturned && ReturnedAt!.Value <= DueDate;
         }
+
+        public override string ToString()
+        {
+            var status = IsReturned
+                ? $"Returned at {ReturnedAt:yyyy-MM-dd HH:mm}, penalty: {PenaltyAmount:C}"
+                : $"Active, due: {DueDate:yyyy-MM-dd HH:mm}";
+
+            return $"{Id}: {Equipment.Name} rented by {User.FullName}, rented at {RentedAt:yyyy-MM-dd HH:mm}, {status}";
+        }
+
     }
 }

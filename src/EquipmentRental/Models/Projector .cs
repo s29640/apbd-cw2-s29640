@@ -23,5 +23,10 @@
             Resolution = resolution;
             BrightnessAnsiLumens = brightnessAnsiLumens;
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}, Resolution: {Resolution}, Brightness: {BrightnessAnsiLumens} ANSI lm";
+        }
     }
 }

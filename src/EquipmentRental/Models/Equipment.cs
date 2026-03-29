@@ -45,5 +45,9 @@
             Status = EquipmentStatus.Unavailable;
         }
 
+        public override string ToString()
+        {
+            return $"{Id}: {Name} [{InventoryNumber}] - {Status}";
+        }
     }
 }

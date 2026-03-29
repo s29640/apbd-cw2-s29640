@@ -23,5 +23,10 @@
             CpuModel = cpuModel;
             RamGb = ramGb;
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}, CPU: {CpuModel}, RAM: {RamGb} GB";
+        }
     }
 }

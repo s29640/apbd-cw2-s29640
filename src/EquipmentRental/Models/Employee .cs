@@ -19,5 +19,9 @@
             Department = department;
         }
 
+        public override string ToString()
+        {
+            return $"{base.ToString()}, Department: {Department}, Limit: {MaxActiveRentals}";
+        }
     }
 }

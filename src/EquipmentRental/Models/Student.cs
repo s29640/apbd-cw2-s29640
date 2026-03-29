@@ -18,5 +18,10 @@
 
             StudentNumber = studentNumber;
         }
+
+        public override string ToString()
+        {
+            return $"{base.ToString()}, Student No: {StudentNumber}, Limit: {MaxActiveRentals}";
+        }
     }
 }
