@@ -1,9 +1,10 @@
 ﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Interfaces;
 using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly List<User> _users = new();
 

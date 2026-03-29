@@ -1,9 +1,10 @@
 ﻿using System.Text;
+using EquipmentRental.Interfaces;
 using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
-    public class ReportService
+    public class ReportService : IReportService
     {
         private readonly EquipmentService _equipmentService;
         private readonly RentalService _rentalService;
@@ -80,7 +81,7 @@ namespace EquipmentRental.Services
 
             return sb.ToString();
         }
-        
+
         public string GetActiveRentalsReport()
         {
             var sb = new StringBuilder();

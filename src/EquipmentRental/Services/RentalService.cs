@@ -1,9 +1,10 @@
 ﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Interfaces;
 using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
-    public class RentalService
+    public class RentalService : IRentalService
     {
         private readonly List<Rental> _rentals = new();
         private readonly PenaltyPolicy _penaltyPolicy;
@@ -83,7 +84,7 @@ namespace EquipmentRental.Services
             var rental = _rentals.FirstOrDefault(r => r.Id == rentalId);
 
             if (rental is null)
-                throw new EntityNotFoundException("Rental",rentalId);
+                throw new EntityNotFoundException("Rental", rentalId);
 
             return rental;
         }

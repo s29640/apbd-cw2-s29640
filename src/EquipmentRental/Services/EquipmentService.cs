@@ -1,9 +1,10 @@
 ﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Interfaces;
 using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
-    public class EquipmentService
+    public class EquipmentService : IEquipmentService
     {
         private readonly List<Equipment> _equipment = new();
 
@@ -32,7 +33,7 @@ namespace EquipmentRental.Services
             var equipment = _equipment.FirstOrDefault(e => e.Id == id);
 
             if (equipment is null)
-                throw new EntityNotFoundException(typeof(Equipment).Name,id);
+                throw new EntityNotFoundException(typeof(Equipment).Name, id);
 
             return equipment;
         }
