@@ -46,8 +46,22 @@
 
         public void Close(DateTime returnedAt, decimal penaltyAmount)
         {
+            if (IsReturned)
+                throw new InvalidOperationException("Rental is already closed.");
+
+            if (returnedAt < RentedAt)
+                throw new ArgumentException("Return date cannot be earlier than rented date.", nameof(returnedAt));
+
+            if (penaltyAmount < 0)
+                throw new ArgumentOutOfRangeException(nameof(penaltyAmount), "Penalty amount cannot be negative.");
+
             ReturnedAt = returnedAt;
             PenaltyAmount = penaltyAmount;
+        }
+
+        public bool IsReturnedOnTime()
+        {
+            return IsReturned && ReturnedAt!.Value <= DueDate;
         }
     }
 }
