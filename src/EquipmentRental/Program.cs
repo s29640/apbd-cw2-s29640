@@ -1,4 +1,5 @@
-﻿using EquipmentRental.Models;
+﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Models;
 using EquipmentRental.Services;
 
 namespace EquipmentRental
@@ -145,6 +146,10 @@ namespace EquipmentRental
             try
             {
                 action();
+            }
+            catch (DomainException ex)
+            {
+                Console.WriteLine($"Expected domain error: {ex.Message}");
             }
             catch (Exception ex)
             {
