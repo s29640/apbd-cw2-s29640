@@ -1,4 +1,5 @@
-﻿using EquipmentRental.Models;
+﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
@@ -21,13 +22,12 @@ namespace EquipmentRental.Services
                 throw new ArgumentOutOfRangeException(nameof(rentalDays), "Rental days must be greater than 0.");
 
             if (!equipment.IsAvailable)
-                throw new InvalidOperationException("Equipment is not available for rental.");
+                throw new EquipmentNotAvailableException(equipment.Id);
 
             var activeRentalsCount = GetActiveRentalsForUser(user).Count;
 
             if (activeRentalsCount >= user.MaxActiveRentals)
-                throw new InvalidOperationException(
-                    $"User {user.FullName} has reached the rental limit of {user.MaxActiveRentals}.");
+                throw new RentalLimitExceededException(user.FullName, user.MaxActiveRentals);
 
             var dueDate = rentedAt.AddDays(rentalDays);
 
@@ -44,7 +44,7 @@ namespace EquipmentRental.Services
             var rental = GetById(rentalId);
 
             if (rental.IsReturned)
-                throw new InvalidOperationException("Rental is already closed.");
+                throw new RentalAlreadyClosedException(rental.Id);
 
             var penalty = _penaltyPolicy.CalculatePenalty(rental.DueDate, returnedAt);
 
@@ -83,7 +83,7 @@ namespace EquipmentRental.Services
             var rental = _rentals.FirstOrDefault(r => r.Id == rentalId);
 
             if (rental is null)
-                throw new InvalidOperationException($"Rental with id {rentalId} was not found.");
+                throw new EntityNotFoundException("Rental",rentalId);
 
             return rental;
         }
