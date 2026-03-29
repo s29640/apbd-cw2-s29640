@@ -11,6 +11,7 @@ namespace EquipmentRental
             var userService = new UserService();
             var penaltyPolicy = new PenaltyPolicy();
             var rentalService = new RentalService(penaltyPolicy);
+            var reportService = new ReportService(equipmentService, rentalService);
 
             Console.WriteLine("=== EQUIPMENT RENTAL DEMO ===");
             Console.WriteLine();
@@ -45,18 +46,8 @@ namespace EquipmentRental
             equipmentService.AddEquipment(projector1);
             equipmentService.AddEquipment(camera1);
 
-            Console.WriteLine("Equipment added:");
-            foreach (var equipment in equipmentService.GetAllEquipment())
-            {
-                Console.WriteLine(equipment);
-            }
-
-            Console.WriteLine();
-            Console.WriteLine("Available equipment:");
-            foreach (var equipment in equipmentService.GetAvailableEquipment())
-            {
-                Console.WriteLine(equipment);
-            }
+            Console.WriteLine(reportService.GetAllEquipmentReport());
+            Console.WriteLine(reportService.GetAvailableEquipmentReport());
 
             Console.WriteLine();
             Console.WriteLine(new string('-', 60));
@@ -138,11 +129,7 @@ namespace EquipmentRental
             var overdueCheckDate = new DateTime(2026, 3, 10, 12, 0, 0);
 
             Console.WriteLine();
-            Console.WriteLine("Overdue rentals:");
-            foreach (var rental in rentalService.GetOverdueRentals(overdueCheckDate))
-            {
-                Console.WriteLine(rental);
-            }
+            Console.WriteLine(reportService.GetOverdueRentalsReport(overdueCheckDate));
 
             Console.WriteLine();
             Console.WriteLine(new string('-', 60));
@@ -159,18 +146,10 @@ namespace EquipmentRental
 
 
             // 12. Aktywne wypożyczenia użytkownika
-            Console.WriteLine($"Active rentals for {student1.FullName}:");
-            foreach (var rental in rentalService.GetActiveRentalsForUser(student1))
-            {
-                Console.WriteLine(rental);
-            }
+            Console.WriteLine(reportService.GetActiveRentalsForUserReport(student1));
 
             Console.WriteLine();
-            Console.WriteLine($"Active rentals for {employee1.FullName}:");
-            foreach (var rental in rentalService.GetActiveRentalsForUser(employee1))
-            {
-                Console.WriteLine(rental);
-            }
+            Console.WriteLine(reportService.GetActiveRentalsForUserReport(employee1));
 
             Console.WriteLine();
             Console.WriteLine(new string('-', 60));
@@ -180,41 +159,28 @@ namespace EquipmentRental
             Console.WriteLine("FINAL REPORT");
             Console.WriteLine();
 
-            Console.WriteLine("All equipment:");
-            foreach (var equipment in equipmentService.GetAllEquipment())
-            {
-                Console.WriteLine(equipment);
-            }
+            Console.WriteLine(reportService.GetAllEquipmentReport());
 
-            Console.WriteLine();
-            Console.WriteLine("Available equipment:");
-            foreach (var equipment in equipmentService.GetAvailableEquipment())
-            {
-                Console.WriteLine(equipment);
-            }
+            Console.WriteLine(reportService.GetAvailableEquipmentReport());
 
-            Console.WriteLine();
             Console.WriteLine("All rentals:");
             foreach (var rental in rentalService.GetAllRentals())
             {
                 Console.WriteLine(rental);
             }
-
             Console.WriteLine();
+
             Console.WriteLine("Active rentals:");
             foreach (var rental in rentalService.GetActiveRentals())
             {
                 Console.WriteLine(rental);
             }
-
             Console.WriteLine();
-            Console.WriteLine("Overdue rentals:");
-            foreach (var rental in rentalService.GetOverdueRentals(overdueCheckDate))
-            {
-                Console.WriteLine(rental);
-            }
 
-            Console.WriteLine();
+            Console.WriteLine(reportService.GetOverdueRentalsReport(overdueCheckDate));
+
+            Console.WriteLine(reportService.GetSystemSummaryReport(overdueCheckDate));
+
             Console.WriteLine("=== END OF DEMO ===");
         }
     }
