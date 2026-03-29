@@ -11,7 +11,10 @@
         public decimal PenaltyAmount { get; private set; }
 
         public bool IsReturned => ReturnedAt.HasValue;
-        public bool IsOverdue => !IsReturned && DateTime.Now > DueDate;
+        public bool IsOverdue(DateTime currentDateTime)
+        {
+            return !IsReturned && currentDateTime > DueDate;
+        }
 
         public Rental(
             int id,
@@ -34,6 +37,11 @@
             DueDate = dueDate;
             ReturnedAt = null;
             PenaltyAmount = 0m;
+        }
+
+        public bool WasReturnedLate()
+        {
+            return IsReturned && ReturnedAt!.Value > DueDate;
         }
 
         public void Close(DateTime returnedAt, decimal penaltyAmount)
