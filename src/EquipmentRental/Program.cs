@@ -1,4 +1,5 @@
 ﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Interfaces;
 using EquipmentRental.Models;
 using EquipmentRental.Services;
 
@@ -8,11 +9,11 @@ namespace EquipmentRental
     {
         static void Main(string[] args)
         {
-            var equipmentService = new EquipmentService();
-            var userService = new UserService();
+            IEquipmentService equipmentService = new EquipmentService();
+            IUserService userService = new UserService();
             var penaltyPolicy = new PenaltyPolicy();
-            var rentalService = new RentalService(penaltyPolicy);
-            var reportService = new ReportService(equipmentService, rentalService);
+            IRentalService rentalService = new RentalService(penaltyPolicy);
+            IReportService reportService = new ReportService(equipmentService, rentalService);
 
             Console.WriteLine("=== EQUIPMENT RENTAL DEMO ===");
 
