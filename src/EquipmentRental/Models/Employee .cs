@@ -11,7 +11,7 @@
             string firstName,
             string lastName,
             string department)
-            : base(id, firstName, lastName, UserType.Employee)
+            : base(id, firstName, lastName)
         {
             Department = department;
         }

@@ -11,7 +11,7 @@
             string firstName,
             string lastName,
             string studentNumber)
-            : base(id, firstName, lastName, UserType.Student)
+            : base(id, firstName, lastName)
         {
             StudentNumber = studentNumber;
         }
