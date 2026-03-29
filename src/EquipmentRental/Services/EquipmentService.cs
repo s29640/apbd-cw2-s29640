@@ -1,4 +1,5 @@
-﻿using EquipmentRental.Models;
+﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
@@ -11,7 +12,7 @@ namespace EquipmentRental.Services
             ArgumentNullException.ThrowIfNull(equipment);
 
             if (_equipment.Any(e => e.Id == equipment.Id))
-                throw new InvalidOperationException($"Equipment with id {equipment.Id} already exists.");
+                throw new DuplicateEquipmentIdException(equipment.Id);
 
             _equipment.Add(equipment);
         }
@@ -31,7 +32,7 @@ namespace EquipmentRental.Services
             var equipment = _equipment.FirstOrDefault(e => e.Id == id);
 
             if (equipment is null)
-                throw new InvalidOperationException($"Equipment with id {id} was not found.");
+                throw new EntityNotFoundException(typeof(Equipment).Name,id);
 
             return equipment;
         }

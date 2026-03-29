@@ -1,4 +1,5 @@
-﻿using EquipmentRental.Models;
+﻿using EquipmentRental.Exceptions;
+using EquipmentRental.Models;
 
 namespace EquipmentRental.Services
 {
@@ -11,7 +12,7 @@ namespace EquipmentRental.Services
             ArgumentNullException.ThrowIfNull(user);
 
             if (_users.Any(u => u.Id == user.Id))
-                throw new InvalidOperationException($"User with id {user.Id} already exists.");
+                throw new DuplicateUserIdException(user.Id);
 
             _users.Add(user);
         }
@@ -26,7 +27,7 @@ namespace EquipmentRental.Services
             var user = _users.FirstOrDefault(u => u.Id == id);
 
             if (user is null)
-                throw new InvalidOperationException($"User with id {id} was not found.");
+                throw new EntityNotFoundException(typeof(User).Name, id);
 
             return user;
         }
