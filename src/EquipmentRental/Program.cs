@@ -14,7 +14,6 @@ namespace EquipmentRental
             var reportService = new ReportService(equipmentService, rentalService);
 
             Console.WriteLine("=== EQUIPMENT RENTAL DEMO ===");
-            Console.WriteLine();
 
             // 1. Dodanie użytkowników
             var student1 = new Student(1, "Jan", "Kowalski", "s12345");
@@ -25,15 +24,11 @@ namespace EquipmentRental
             userService.AddUser(student2);
             userService.AddUser(employee1);
 
-            Console.WriteLine("Users added:");
+            PrintSection("Users added:");
             foreach (var user in userService.GetAllUsers())
             {
                 Console.WriteLine(user);
             }
-
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
 
             // 2. Dodanie sprzętu
             var laptop1 = new Laptop(1, "Dell Latitude", "LAP-001", "Intel i5", 16);
@@ -46,83 +41,54 @@ namespace EquipmentRental
             equipmentService.AddEquipment(projector1);
             equipmentService.AddEquipment(camera1);
 
+            PrintSection("Equipments added:");
             Console.WriteLine(reportService.GetAllEquipmentReport());
             Console.WriteLine(reportService.GetAvailableEquipmentReport());
 
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
-            // Bazaowa data do testów
+            // Bazowa data do testów
             var baseDate = new DateTime(2026, 3, 1, 10, 0, 0);
 
             // 3. Poprawne wypożyczenie nr 1
-            Console.WriteLine("Correct rental #1:");
+            PrintSection("Correct rental #1:");
             var rental1 = rentalService.RentEquipment(1, student1, laptop1, baseDate, 7);
             Console.WriteLine(rental1);
 
             // 4. Poprawne wypożyczenie nr 2
-            Console.WriteLine();
-            Console.WriteLine("Correct rental #2:");
+            PrintSection("Correct rental #2:");
             var rental2 = rentalService.RentEquipment(2, student1, projector1, baseDate.AddHours(1), 3);
             Console.WriteLine(rental2);
 
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
-
             // 5. Błędna próba - sprzęt już wypożyczony
-            Console.WriteLine("Invalid operation #1: renting unavailable equipment");
-            try
-            {
-                rentalService.RentEquipment(3, student2, laptop1, baseDate.AddHours(2), 5);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Expected error: {ex.Message}");
-            }
+            PrintSection("Invalid operation #1: renting unavailable equipment");
+            PrintExpectedError(
+                () => rentalService.RentEquipment(3, student2, laptop1, baseDate.AddHours(2), 5));
 
             // 6. Błędna próba - przekroczenie limitu studenta
-            Console.WriteLine();
-            Console.WriteLine("Invalid operation #2: exceeding student rental limit");
-            try
-            {
-                rentalService.RentEquipment(4, student1, camera1, baseDate.AddHours(3), 5);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Expected error: {ex.Message}");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
+            PrintSection("Invalid operation #2: exceeding student rental limit");
+            PrintExpectedError(
+                () => rentalService.RentEquipment(4, student1, camera1, baseDate.AddHours(3), 5));
 
 
             // 7. Zwrot terminowy
-            Console.WriteLine("On-time return:");
+            PrintSection("On-time return:");
             rentalService.ReturnEquipment(2, baseDate.AddDays(2)); // przed terminem
             Console.WriteLine(rentalService.GetById(2));
 
 
             // 8. Nowe wypożyczenie po zwolnieniu limitu
-            Console.WriteLine();
-            Console.WriteLine("Rental after freeing student limit:");
+            PrintSection("Rental after freeing student limit:");
             var rental3 = rentalService.RentEquipment(5, student1, camera1, baseDate.AddDays(2), 2);
             Console.WriteLine(rental3);
 
 
             // 9. Zwrot po terminie
-            Console.WriteLine();
-            Console.WriteLine("Late return with penalty:");
+            PrintSection("Late return with penalty:");
             rentalService.ReturnEquipment(5, baseDate.AddDays(6)); // po terminie
             Console.WriteLine(rentalService.GetById(5));
 
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
-
 
             // 10. Przeterminowane aktywne wypożyczenie
-            Console.WriteLine("Creating overdue active rental:");
+            PrintSection("Creating overdue active rental:");
             var rental4 = rentalService.RentEquipment(6, employee1, laptop2, new DateTime(2026, 3, 5, 9, 0, 0), 2);
             Console.WriteLine(rental4);
 
@@ -131,20 +97,13 @@ namespace EquipmentRental
             Console.WriteLine();
             Console.WriteLine(reportService.GetOverdueRentalsReport(overdueCheckDate));
 
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
-
 
             // 11. Oznaczenie sprzętu jako niedostępnego
-            Console.WriteLine("Marking equipment as unavailable:");
-            equipmentService.MarkAsUnavailable(2); // laptop2
+            PrintSection("Marking equipment as unavailable:");
+            equipmentService.MarkAsUnavailable(camera1.Id);
             Console.WriteLine(equipmentService.GetById(2));
 
-            Console.WriteLine();
-            Console.WriteLine(new string('-', 60));
-
-
+            
             // 12. Aktywne wypożyczenia użytkownika
             Console.WriteLine(reportService.GetActiveRentalsForUserReport(student1));
 
@@ -156,8 +115,8 @@ namespace EquipmentRental
 
 
             // 13. Raport końcowy
-            Console.WriteLine("FINAL REPORT");
-            Console.WriteLine();
+
+            PrintSection("FINAL REPORT");
 
             Console.WriteLine(reportService.GetAllEquipmentReport());
 
@@ -183,5 +142,26 @@ namespace EquipmentRental
 
             Console.WriteLine("=== END OF DEMO ===");
         }
+
+        private static void PrintSection(string title)
+        {
+            Console.WriteLine();
+            Console.WriteLine(new string('-', 60));
+            Console.WriteLine(title);
+            Console.WriteLine();
+        }
+
+        private static void PrintExpectedError(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Expected error: {ex.Message}");
+            }
+        }
+
     }
 }
