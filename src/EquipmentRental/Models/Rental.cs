@@ -20,9 +20,16 @@
             DateTime rentedAt,
             DateTime dueDate)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
+
+            User = user ?? throw new ArgumentNullException(nameof(user));
+            Equipment = equipment ?? throw new ArgumentNullException(nameof(equipment));
+
+            if (dueDate < rentedAt)
+                throw new ArgumentException("Due date cannot be earlier than rented date.", nameof(dueDate));
+
             Id = id;
-            User = user;
-            Equipment = equipment;
             RentedAt = rentedAt;
             DueDate = dueDate;
             ReturnedAt = null;

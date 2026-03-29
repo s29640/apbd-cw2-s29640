@@ -13,6 +13,9 @@
             string department)
             : base(id, firstName, lastName)
         {
+            if (string.IsNullOrWhiteSpace(department))
+                throw new ArgumentException("Department cannot be empty.", nameof(department));
+
             Department = department;
         }
 

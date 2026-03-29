@@ -15,6 +15,15 @@
             string inventoryNumber,
             EquipmentStatus status = EquipmentStatus.Available)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
+
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty.", nameof(name));
+
+            if (string.IsNullOrWhiteSpace(inventoryNumber))
+                throw new ArgumentException("Inventory number cannot be empty.", nameof(inventoryNumber));
+
             Id = id;
             Name = name;
             InventoryNumber = inventoryNumber;

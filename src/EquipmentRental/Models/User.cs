@@ -14,6 +14,15 @@
             string firstName,
             string lastName)
         {
+            if (id <= 0)
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than 0.");
+
+            if (string.IsNullOrWhiteSpace(firstName))
+                throw new ArgumentException("First name cannot be empty.", nameof(firstName));
+
+            if (string.IsNullOrWhiteSpace(lastName))
+                throw new ArgumentException("Last name cannot be empty.", nameof(lastName));
+
             Id = id;
             FirstName = firstName;
             LastName = lastName;

@@ -13,6 +13,9 @@
             string studentNumber)
             : base(id, firstName, lastName)
         {
+            if (string.IsNullOrWhiteSpace(studentNumber))
+                throw new ArgumentException("Student number cannot be empty.", nameof(studentNumber));
+
             StudentNumber = studentNumber;
         }
     }
