@@ -6,10 +6,10 @@ namespace EquipmentRental.Services
 {
     public class ReportService : IReportService
     {
-        private readonly EquipmentService _equipmentService;
-        private readonly RentalService _rentalService;
+        private readonly IEquipmentService _equipmentService;
+        private readonly IRentalService _rentalService;
 
-        public ReportService(EquipmentService equipmentService, RentalService rentalService)
+        public ReportService(IEquipmentService equipmentService, IRentalService rentalService)
         {
             _equipmentService = equipmentService ?? throw new ArgumentNullException(nameof(equipmentService));
             _rentalService = rentalService ?? throw new ArgumentNullException(nameof(rentalService));
