@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Elementy rozwiązania/">
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/EquipmentRental/EquipmentRental.csproj" />
+  </Folder>
+</Solution>
